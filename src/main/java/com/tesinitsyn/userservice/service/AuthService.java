@@ -51,8 +51,8 @@ public class AuthService {
 
     public ReqRes signIn(ReqRes signInRequest){
         ReqRes response = new ReqRes();
-
         try {
+            System.out.printf("EMAIL: %s, PASSWORD: %s\n", signInRequest.getEmail(), signInRequest.getPassword());
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signInRequest.getEmail(),signInRequest.getPassword()));
             var user = myUserRepository.findByEmail(signInRequest.getEmail()).orElseThrow();
             System.out.println("USER IS: "+ user);
@@ -68,6 +68,9 @@ public class AuthService {
         }catch (Exception e){
             response.setStatusCode(500);
             response.setError(e.getMessage());
+            System.out.println("ERROR: " + e.getMessage());
+            System.out.println("ERROR: " + e);
+
         }
         return response;
     }

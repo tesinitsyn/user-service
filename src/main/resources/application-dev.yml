@@ -1,4 +1,4 @@
 spring:
   application:
-    name: financial-control-service
+    name: user-service
     version: @project.version@
