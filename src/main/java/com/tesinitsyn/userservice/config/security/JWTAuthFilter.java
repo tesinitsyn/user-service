@@ -1,4 +1,4 @@
-package com.tesinitsyn.userservice.config;
+package com.tesinitsyn.userservice.config.security;
 
 import com.tesinitsyn.userservice.service.MyUserDetailsService;
 import com.tesinitsyn.userservice.utils.JWTUtils;
