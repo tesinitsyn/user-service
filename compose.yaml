@@ -1,9 +1,5 @@
 version: '3.9'
 
-networks:
-  app-network:
-    driver: bridge
-
 services:
   postgres:
     image: 'postgres:latest'
@@ -13,52 +9,40 @@ services:
       - 'POSTGRES_USER=myuser'
     ports:
       - '5432:5432'
-    networks:
-      - app-network
 
-  rabbitmq:
-    image: 'rabbitmq:latest'
-    environment:
-      - 'RABBITMQ_DEFAULT_PASS=secret'
-      - 'RABBITMQ_DEFAULT_USER=myuser'
-    ports:
-      - '5672:5672'
-    networks:
-      - app-network
-
-  user-service:
-    image: 'user-service:0.0.1-SNAPSHOT'
-    build:
-      context: ./user-service
-    environment:
-      SPRING_DATASOURCE_URL: 'jdbc:postgresql://postgres:5432/mydatabase'
-      SPRING_DATASOURCE_USERNAME: 'myuser'
-      SPRING_DATASOURCE_PASSWORD: 'secret'
-      SPRING_RABBITMQ_HOST: 'rabbitmq'
-      SPRING_RABBITMQ_PORT: '5672'
-      SERVER_PORT: 8080
-      SERVER_ADDRESS: 0.0.0.0
-    depends_on:
-      - postgres
-      - rabbitmq
-    ports:
-      - '0.0.0.0:8081:8080'
-    networks:
-      - app-network
-
-  notifications-service:
-    image: 'notifications-service:0.0.1-SNAPSHOT'
-    build:
-      context: ./notifications-service
-    environment:
-      SPRING_RABBITMQ_HOST: 'rabbitmq'
-      SPRING_RABBITMQ_PORT: '5672'
-      SERVER_PORT: 8080
-      SERVER_ADDRESS: 0.0.0.0
-    depends_on:
-      - postgres
-      - rabbitmq
-    ports:
-      - '0.0.0.0:8082:8080'
-    networks:
-      - app-network
+#  user-service:
+#    image: 'user-service:0.0.1-SNAPSHOT'
+#    build:
+#      context: ./user-service
+#    environment:
+#      SPRING_DATASOURCE_URL: 'jdbc:postgresql://postgres:5432/mydatabase'
+#      SPRING_DATASOURCE_USERNAME: 'myuser'
+#      SPRING_DATASOURCE_PASSWORD: 'secret'
+#      SPRING_RABBITMQ_HOST: 'rabbitmq'
+#      SPRING_RABBITMQ_PORT: '5672'
+#      SERVER_PORT: 8080
+#      SERVER_ADDRESS: 0.0.0.0
+#    depends_on:
+#      - postgres
+#      - rabbitmq
+#    ports:
+#      - '0.0.0.0:8081:8080'
+#    networks:
+#      - app-network
+#
+#  notifications-service:
+#    image: 'notifications-service:0.0.1-SNAPSHOT'
+#    build:
+#      context: ./notifications-service
+#    environment:
+#      SPRING_RABBITMQ_HOST: 'rabbitmq'
+#      SPRING_RABBITMQ_PORT: '5672'
+#      SERVER_PORT: 8080
+#      SERVER_ADDRESS: 0.0.0.0
+#    depends_on:
+#      - postgres
+#      - rabbitmq
+#    ports:
+#      - '0.0.0.0:8082:8080'
+#    networks:
+#      - app-network

@@ -3,18 +3,12 @@ spring:
     name: user-service
     version: @project.version@
   datasource:
-    host: app-network
+    host: localhost
     port: 5432
     database: mydatabase
     url: jdbc:postgresql://${spring.datasource.host}:${spring.datasource.port}/${spring.datasource.database}
     username: myuser
     password: secret
     driver-class-name: org.postgresql.Driver
-  rabbitmq:
-    host: app-network
-    port: 5672
-    virtual-host: /
-    username: myuser
-    password: secret
 server:
   port: 8081

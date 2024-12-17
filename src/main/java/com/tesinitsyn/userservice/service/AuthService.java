@@ -1,7 +1,6 @@
 package com.tesinitsyn.userservice.service;
 
 import com.tesinitsyn.userservice.dto.ReqRes;
-import com.tesinitsyn.userservice.messaging.RabbitMQProducer;
 import com.tesinitsyn.userservice.models.MyUser;
 import com.tesinitsyn.userservice.repository.MyUserRepository;
 import com.tesinitsyn.userservice.utils.JWTUtils;
@@ -19,14 +18,12 @@ public class AuthService {
     private final JWTUtils jwtUtils;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
-    private final RabbitMQProducer rabbitMQProducer;
 
-    public AuthService(MyUserRepository myUserRepository, JWTUtils jwtUtils, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, RabbitMQProducer rabbitMQProducer) {
+    public AuthService(MyUserRepository myUserRepository, JWTUtils jwtUtils, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
         this.myUserRepository = myUserRepository;
         this.jwtUtils = jwtUtils;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
-        this.rabbitMQProducer = rabbitMQProducer;
     }
 
     public ReqRes signUp(ReqRes registrationRequest){
@@ -63,7 +60,6 @@ public class AuthService {
             response.setRefreshToken(refreshToken);
             response.setExpirationTime("24Hr");
             response.setMessage("Successfully Signed In");
-            rabbitMQProducer.sendMessage( signInRequest.getEmail());
 
         }catch (Exception e){
             response.setStatusCode(500);

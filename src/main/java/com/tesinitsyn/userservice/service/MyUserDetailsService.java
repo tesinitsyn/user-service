@@ -20,4 +20,9 @@ public class MyUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return myUserRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(username));
     }
+
+    public Boolean findUser(String username) throws UsernameNotFoundException {
+         var user = myUserRepository.findByEmail(username);
+         return user.isPresent();
+    }
 }
